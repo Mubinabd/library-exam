@@ -182,7 +182,7 @@ func (borrower *BorrowerService) HistoryUser(req *pb.UserId) (*pb.BorrowingHisto
         JOIN
             borrower ON book.id = borrower.book_id
         WHERE 
-            book.deleted_at = 0 AND borrower.user_id = $1`
+           borrower.user_id = $1`
 
 	rows, err := borrower.db.Query(query, req.UserId)
 	if err != nil {
