@@ -16,6 +16,3 @@ mig-create:
 
 mig-insert:
   migrate create -ext sql -dir db/migrations -seq insert_table
-
-swag-gen:
-  ~/go/bin/swag init -g ./api/api.go -o docs force 1
