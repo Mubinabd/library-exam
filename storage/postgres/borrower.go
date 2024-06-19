@@ -45,12 +45,13 @@ func (borrower *BorrowerService) GetBorrower(req *pb.ById) (*pb.Borrower, error)
 	return &resp, nil
 }
 
-func (borrower *BorrowerService) GetAllBorrowers(req *pb.Void) (*pb.Borrowers, error) {
+func (borrow *BorrowerService) GetAllBorrowers(req *pb.Void) (*pb.Borrowers, error) {
 	query := `
 		SELECT 
-		user_id, book_id, borrow_date, return_date 
-		FROM borrower`
-	rows, err := borrower.db.Query(query)
+		id,user_id, book_id, borrow_date, return_date 
+		FROM borrower
+		WHERE deleted_at = 0`
+	rows, err := borrow.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +59,7 @@ func (borrower *BorrowerService) GetAllBorrowers(req *pb.Void) (*pb.Borrowers, e
 	var borrowers pb.Borrowers
 	for rows.Next() {
 		var borrower pb.Borrower
-		if err := rows.Scan(&borrower.UserID, &borrower.BookID, &borrower.BorrowDate, &borrower.ReturnDate); err != nil {
+		if err := rows.Scan(&borrower.Id, &borrower.UserID, &borrower.BookID, &borrower.BorrowDate, &borrower.ReturnDate); err != nil {
 			return nil, err
 		}
 		borrowers.Borrowers = append(borrowers.Borrowers, &borrower)
@@ -130,7 +131,7 @@ func (borrower *BorrowerService) BorrowerBooks(req *pb.UserId) (*pb.BorrowedBook
 
 	return &borrowedBooks, nil
 }
-func(borrower *BorrowerService)GetOverdueBooks(req *pb.OverdueRequest) (*pb.BorrowedBooks, error) {
+func (borrower *BorrowerService) GetOverdueBooks(req *pb.OverdueRequest) (*pb.BorrowedBooks, error) {
 	currentDate := time.Now().Format("2006-01-02")
 	query := `	
 		SELECT 
@@ -168,8 +169,6 @@ func(borrower *BorrowerService)GetOverdueBooks(req *pb.OverdueRequest) (*pb.Borr
 
 	return &borrowedBooks, nil
 }
-
-
 
 func (borrower *BorrowerService) HistoryUser(req *pb.UserId) (*pb.BorrowingHistory, error) {
 

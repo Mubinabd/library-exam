@@ -72,20 +72,23 @@ func TestGetAllBorrowers(t *testing.T) {
 
 	borrowerService := postgres.NewBorrowerStrorage(db)
 
-	mock.ExpectQuery("SELECT user_id, book_id, borrow_date, return_date FROM borrower").
-		WillReturnRows(sqlmock.NewRows([]string{"user_id", "book_id", "borrow_date", "return_date"}).
-			AddRow("user-1", "book-1", "2024-01-01", "2024-01-10").
-			AddRow("user-2", "book-2", "2024-01-02", "2024-01-11"))
+	mock.ExpectQuery("SELECT id,user_id, book_id, borrow_date, return_date FROM borrower WHERE deleted_at = 0").
+		WillReturnRows(sqlmock.NewRows([]string{"id", "user_id", "book_id", "borrow_date", "return_date"}).
+			AddRow("6f92a86a-efcf-4aa6-8b31-705ba632976f", "user-1", "book-1", "2024-01-01", "2024-01-10").
+			AddRow("eb88da3a-4fd9-4e57-9ec5-6142bb66b1d7", "user-2", "book-2", "2024-01-02", "2024-01-11"))
 
 	resp, err := borrowerService.GetAllBorrowers(&pb.Void{})
 	require.NoError(t, err)
 
 	require.Len(t, resp.Borrowers, 2)
+
+	assert.Equal(t, "6f92a86a-efcf-4aa6-8b31-705ba632976f", resp.Borrowers[0].Id)
 	assert.Equal(t, "user-1", resp.Borrowers[0].UserID)
 	assert.Equal(t, "book-1", resp.Borrowers[0].BookID)
 	assert.Equal(t, "2024-01-01", resp.Borrowers[0].BorrowDate)
 	assert.Equal(t, "2024-01-10", resp.Borrowers[0].ReturnDate)
 
+	assert.Equal(t, "eb88da3a-4fd9-4e57-9ec5-6142bb66b1d7", resp.Borrowers[1].Id)
 	assert.Equal(t, "user-2", resp.Borrowers[1].UserID)
 	assert.Equal(t, "book-2", resp.Borrowers[1].BookID)
 	assert.Equal(t, "2024-01-02", resp.Borrowers[1].BorrowDate)

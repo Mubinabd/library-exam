@@ -116,7 +116,7 @@ func (s *AuthorStorage) GetAllAuthors(req *pb.NameFilter) (*pb.Authors, error) {
 	return &authors, nil
 }
 
-func (s *AuthorStorage)GetAuthorBooks(req *pb.AuthorID) (*pb.UserBook, error) {
+func (s *AuthorStorage) GetAuthorBooks(req *pb.AuthorID) (*pb.UserBook, error) {
 	query := `
 		SELECT 
 			id, title, author_id, genre_id, summary 
