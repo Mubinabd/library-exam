@@ -6,7 +6,7 @@ Kutubxonadan kitob olib o'qish uchun qulaylashtirilgan keng imkoniyatlarga ega k
 Ushbu tizim orqali foydalanuvchilar kutubxonadan ijaraga kitob olib o'qishlari mumkin bo'ladi.
 Qaysi foydalanuvchi qaysi turdagi kitobni qanday janrdagi kitobni qachon olgan kutubxondan va kutubxonaga qachon qaytarishi
 haqidagi ma'lumotlar keltirilgan.Kitobning muallifi tavsifi va kitob haqidagi malumotlarni ko'rib qidiruv tizimini
-ham amalga oshirish mumkin.Foydalanuvchilar o'zlarining qanday kitob olganliklarini va qachon olib qachon 
+ham amalga oshirish mumkin.Foydalanuvchilar o'zlarining qanday kitob olganliklarini va qachon olib qachon
 qaytarganliklarini ham bilib bilishlari mumkin.
 
 ## Installation
@@ -70,20 +70,23 @@ qaytarganliklarini ham bilib bilishlari mumkin.
 
 ## Features and Usages
 1. Auth serviceda User uchun Register va Login bo'limi bor va Get bo'limida user faqat o'zining profile ni ko'ra oladi.
-2. Author bo'limida author create qilinadi va id si bo'yicha shu authorni barcha malumotlarini olsa bo'ladi.
-GetAll metodida name bo'yicha filter qilinadi.Author bo'limiga qo'shimcha API qo'shilgan bo'lib
-bu metod GetAuthorBooks bitta authorga tegishli barcha kitoblarni olib beradi.
-3. Book bo'limida book create qilinadi va title bo'yicha shu bookni barcha malumotlarini olsa bo'ladi.
-GetAll metodida title bo'yicha filter qilinadi.Book bo'limiga qo'shimcha API qo'shilgan bo'lib
-bu metod SearchTitleAndAuthor author yoki title bo'yicha qidiruv tizimini amalga oshiradi.
-4. Borrower bo'limida borrower create qilinadi va id si bo'yicha shu borrowerni barcha ma'lumotlarini olsa bo'ladi.
-GetAll metodida hech qanday parametri yo'q bo'lib hech qanday field bervormasdan va filter qo'ymasdan barcha borrowerlarni 
-olsa bo'ladi. Borrower bo'limiga 3ta qo'shimcha API qo'shilgan bo'lib bularning birinchisi BorrowerBooks malum bir foydalanuvchi tomonidan 
-olingan barcha kitoblarni olib beradi.Ikkinchisi GetOverdueBooks return date bilan hozirgi vaqtni solishtiradi va return date o'tib
-ketgan bo'lsa shu kitoblarni chiqaradi.Uchinchisi HistoryUser foydalanuvchining kutubxonadan olgan kitoblarini tarixini ko'rsatadi.
-5. Genre bo'limida genre create qiladi va name bo'yicha shu namega tegishli genreni qaytaradi.
-GetAll metodida name bo'yicha filter qilindai.Genre bo'limiga qo'shimcha API qo'shilgan bo'lib GetBooksByGenre bu metod orqali
-biror bir janrga tegishli barcha kitoblarni olishingiz mumkin bo'ladi.
+2. Author bo'limida author create, put, delete metodlarida faqat username adminga teng bo'lsagina admin qila yaratib
+   o'zgartirib,o'chira oladi va idsi bo'yicha shu authorni barcha malumotlarini olsa bo'ladi.GetAll metodida name bo'yicha
+   filter qilinadi.Author bo'limiga qo'shimcha API qo'shilgan bo'lib bu metod GetAuthorBooks 1ta authorga tegishli barcha
+   kitoblarni olib beradi.
+3. Book bo'limida book create, put, delete metodida username adminga teng bo'lsa admin kitob yarata,o'chira va qayta
+   o'zgaratira oladi va title bo'yicha shu bookni barcha ma'lumotlarini olsa bo'ladi. GetAll metodida title bo'yicha
+   filter qilinadi.Book bo'limiga qo'shimcha API qo'shilgan bo'lib bu metod SearchTitleAndAuthor author yoki title
+   bo'yicha qidiruv tizimini amalga oshiradi.
+4. Borrower bo'limida borrower create,put,delete qilinadi bularni barchasini username adminga teng bo'lsagina admin qila
+   oladi va id si bo'yicha shu borrowerni barcha ma'lumotlarini olsa bo'ladi.GetAll metodida hech qanday parametri yo'q bo'lib
+   hech qanday field bervormasdan va filter qo'ymasdan barcha borrowerlarni olsa bo'ladi. Borrower bo'limiga 3ta qo'shimcha
+   API qo'shilgan bo'lib bularning birinchisi BorrowerBooks malum bir foydalanuvchi tomonidan olingan barcha kitoblarni
+   olib beradi.Ikkinchisi GetOverdueBooks return date bilan hozirgi vaqtni solishtiradi va return date o'tib ketgan bo'lsa shu
+   kitoblarni chiqaradi.Uchinchisi HistoryUser foydalanuvchining kutubxonadan olgan kitoblarini tarixini ko'rsatadi.
+5. Genre bo'limida genre create,put,delete metodida username adminga teng bo'lsa admin yangi janr yarata oladi va get metodida
+   name bo'yicha shu namega tegishli genreni qaytaradi. GetAll metodida name bo'yicha filter qilindai.Genre bo'limiga qo'shimcha
+   API qo'shilgan bo'lib GetBooksByGenre bu metod orqali biror bir janrga tegishli barcha kitoblarni olishingiz mumkin bo'ladi.
 
 ## Dependencies
 
