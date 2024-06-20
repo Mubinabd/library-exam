@@ -18,20 +18,20 @@ func TestCreateBook(t *testing.T) {
 	bookStorage := postgres.NewBookStorage(db)
 
 	req := &pb.BookCreate{
-		Title:    "Test Book",
+		Title:    "Ikki eshik orasi",
 		AuthorID: "author-1",
 		GenreID:  "genre-1",
-		Summary:  "Test Summary",
+		Summary:  "Test Book",
 	}
 
 	mock.ExpectQuery("INSERT INTO book").
 		WithArgs(sqlmock.AnyArg(), req.Title, req.AuthorID, req.GenreID, req.Summary).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).AddRow("1", req.Title, req.AuthorID, req.GenreID, req.Summary))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).AddRow("38f8fd64-f293-49c7-8de7-340a80236af1", req.Title, req.AuthorID, req.GenreID, req.Summary))
 
 	resp, err := bookStorage.CreateBook(req)
 	require.NoError(t, err)
 
-	assert.Equal(t, "1", resp.Id)
+	assert.Equal(t, "38f8fd64-f293-49c7-8de7-340a80236af1", resp.Id)
 	assert.Equal(t, req.Title, resp.Title)
 	assert.Equal(t, req.AuthorID, resp.AuthorId)
 	assert.Equal(t, req.GenreID, resp.GenreId)
@@ -47,20 +47,20 @@ func TestGetBook(t *testing.T) {
 
 	bookStorage := postgres.NewBookStorage(db)
 
-	req := &pb.ByTitle{Title: "Test Book"}
+	req := &pb.ByTitle{Title: "Ikki eshik orasi"}
 
 	mock.ExpectQuery("SELECT id, title, author_id, genre_id, summary FROM book WHERE title = \\$1").
 		WithArgs(req.Title).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).AddRow("1", req.Title, "author-1", "genre-1", "Test Summary"))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).AddRow("38f8fd64-f293-49c7-8de7-340a80236af1", req.Title, "author-1", "genre-1", "Test Book"))
 
 	resp, err := bookStorage.GetBook(req)
 	require.NoError(t, err)
 
-	assert.Equal(t, "1", resp.Id)
+	assert.Equal(t, "38f8fd64-f293-49c7-8de7-340a80236af1", resp.Id)
 	assert.Equal(t, req.Title, resp.Title)
 	assert.Equal(t, "author-1", resp.AuthorId)
 	assert.Equal(t, "genre-1", resp.GenreId)
-	assert.Equal(t, "Test Summary", resp.Summary)
+	assert.Equal(t, "Test Book", resp.Summary)
 
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
@@ -73,7 +73,7 @@ func TestUpdateBook(t *testing.T) {
 	bookStorage := postgres.NewBookStorage(db)
 
 	req := &pb.BookCreate{
-		Id:       "1",
+		Id:       "38f8fd64-f293-49c7-8de7-340a80236af1",
 		Title:    "Updated Book",
 		AuthorID: "author-1",
 		GenreID:  "genre-1",
@@ -154,13 +154,13 @@ func TestSearchTitleAndAuthor(t *testing.T) {
 	mock.ExpectQuery("SELECT id,title, author_id, genre_id, summary FROM book WHERE deleted_at = 0 AND title LIKE \\$1 OR summary LIKE \\$2").
 		WithArgs("%"+req.Title+"%", "%"+req.Title+"%").
 		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).
-			AddRow("1", "Test Book", "author-1", "genre-1", "Test Summary"))
+			AddRow("38f8fd64-f293-49c7-8de7-340a80236af1", "Test Book", "author-1", "genre-1", "Test Summary"))
 
 	resp, err := bookStorage.SearchTitleAndAuthor(req)
 	require.NoError(t, err)
 
 	require.Len(t, resp.Books, 1)
-	assert.Equal(t, "1", resp.Books[0].Id)
+	assert.Equal(t, "38f8fd64-f293-49c7-8de7-340a80236af1", resp.Books[0].Id)
 	assert.Equal(t, "Test Book", resp.Books[0].Title)
 	assert.Equal(t, "author-1", resp.Books[0].AuthorId)
 	assert.Equal(t, "genre-1", resp.Books[0].GenreId)
