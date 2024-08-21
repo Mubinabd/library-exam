@@ -7,7 +7,7 @@ services:
     ports:
       - "8085:8085"
     environment:
-      POSTGRES_HOST: "postgres_dock"
+      POSTGRES_HOST: "postgres-db"  # Update to match the service name
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "1234"
@@ -15,6 +15,18 @@ services:
     networks:
       - global-network
 
+  postgres-db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "library"
+    ports:
+      - "5432:5432"
+    networks:
+      - global-network
+
 networks:
   global-network:
-    external: true 
+    external: true

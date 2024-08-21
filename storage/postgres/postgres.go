@@ -22,7 +22,7 @@ func ConnectDB() (*Storage, error) {
 	dbConn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		cfg.PostgresUser,
 		cfg.PostgresPassword,
-		cfg.PostgresHost,
+		"postgres-db",
 		cfg.PostgresPort,
 		cfg.PostgresDatabase)
 	db, err := sql.Open("postgres", dbConn)
