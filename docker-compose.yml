@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  library-service:
+    container_name: library
+    build: ./
+    ports:
+      - "8085:8085"
+    environment:
+      POSTGRES_HOST: "postgres_dock"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "library"
+    networks:
+      - global-network
+
+networks:
+  global-network:
+    external: true 

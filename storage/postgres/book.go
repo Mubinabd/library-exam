@@ -121,8 +121,6 @@ func (book *BookStorage) GetAllBooks(req *pb.TitleFilter) (*pb.Books, error) {
 
 }
 
-
-
 func (book *BookStorage) SearchTitleAndAuthor(req *pb.Search) (*pb.Books, error) {
 
 	query := `
@@ -130,7 +128,7 @@ func (book *BookStorage) SearchTitleAndAuthor(req *pb.Search) (*pb.Books, error)
 		id,title, author_id, genre_id, summary 
 		FROM book
 		WHERE deleted_at = 0 AND title LIKE $1 OR summary LIKE $2`
-	rows, err := book.db.Query(query, "%"+req.Title+"%", "%"+req.Title+"%")
+	rows, err := book.db.Query(query, "%"+req.Title+"%", "%"+req.Author+"%")
 	if err != nil {
 		return nil, err
 	}

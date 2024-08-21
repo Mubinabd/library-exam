@@ -152,7 +152,7 @@ func TestSearchTitleAndAuthor(t *testing.T) {
 	req := &pb.Search{Title: "Test"}
 
 	mock.ExpectQuery("SELECT id,title, author_id, genre_id, summary FROM book WHERE deleted_at = 0 AND title LIKE \\$1 OR summary LIKE \\$2").
-		WithArgs("%"+req.Title+"%", "%"+req.Title+"%").
+		WithArgs("%"+req.Title+"%", "%"+req.Author+"%").
 		WillReturnRows(sqlmock.NewRows([]string{"id", "title", "author_id", "genre_id", "summary"}).
 			AddRow("38f8fd64-f293-49c7-8de7-340a80236af1", "Test Book", "author-1", "genre-1", "Test Summary"))
 
