@@ -1,13 +1,3 @@
-name: CI/CD
-
-on:
-  push:
-    branches:
-      - mubina
-  pull_request:
-    branches:
-      - mubina
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,14 +21,10 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Install dependencies
-        run: |
-          cd library  
-          go mod tidy
+        run: go mod tidy
 
       - name: Build
-        run: |
-          cd library  # Assuming main.go is inside the "service" directory
-          go build -o bin/main server/main.go
+        run: go build -o bin/main server/main.go
 
   test:
     runs-on: ubuntu-latest
@@ -63,9 +49,8 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Run tests
-        run: |
-          cd library  
-          go test ./...
+        run: go test ./...
+
   deploy:
     runs-on: ubuntu-latest
     needs: test
